@@ -1,0 +1,682 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include "qcustomplot.h"
+#include "cardmodel.h"
+#include "carddelegate.h"
+#include "loadcell.h"
+#include <QElapsedTimer>
+#include <QRandomGenerator>
+#include <QScrollArea>
+#include <QVBoxLayout>
+#include <QMessageBox>
+#include <QDebug>
+#include "connectpopup.h"
+#include "samplingpage.h"
+#include "advanceddialog.h"
+#include "utility.h"
+#include "filterconfig.h"
+
+
+
+const QList<QColor> predefinedColors = {
+    QColor(255, 0, 0),    // Red
+    QColor(0, 255, 0),    // Green
+    QColor(0, 0, 255),    // Blue
+    QColor(255, 255, 0),  // Yellow
+    QColor(255, 0, 255),  // Magenta
+    QColor(0, 255, 255),  // Cyan
+    QColor(128, 0, 0),    // Maroon
+    QColor(0, 128, 0),    // Dark Green
+    QColor(0, 0, 128),    // Navy
+    QColor(128, 128, 0),  // Olive
+    QColor(128, 0, 128),  // Purple
+    QColor(0, 128, 128),  // Teal
+    QColor(192, 192, 192),// Silver
+    QColor(128, 128, 128),// Gray
+    QColor(255, 165, 0),  // Orange
+    QColor(75, 0, 130)    // Indigo
+};
+
+QColor MainWindow::getAvailableColor()
+{
+    for (const QColor &color : predefinedColors) {
+        if (!usedColors.contains(color)) {
+            usedColors.append(color);
+            return color;
+        }
+    }
+
+    // Recycle colors
+    if (!predefinedColors.isEmpty()) {
+        QColor color = usedColors.isEmpty() ? predefinedColors.first() : usedColors.takeFirst();
+        usedColors.append(color);
+        return color;
+    }
+    return QColor(); // Fallback color
+}
+
+void MainWindow::openConnectPopup()
+{
+    connectPopup *popup = new connectPopup(globalTimer,this);
+    popup->setWindowTitle("Connect Popup");
+    popup->resize(650, 500);
+
+    connect(popup, &connectPopup::loadCellConnected, this, &MainWindow::addLoadCellCard);
+
+    popup->show();
+}
+
+
+void MainWindow::addLoadCellCard(LoadCell *loadCell)
+{
+    int cardIndex = cardModel->rowCount();
+    loadCells.append(loadCell);
+
+    QColor color = getAvailableColor();
+    int canId = loadCell->getCanId(); // Fetch the CAN ID from LoadCell
+    cardModel->addCard(QStringList() << QString("CAN ID %1").arg(canId), 0, color);
+
+    if (cardIndex >= ui->mainPlot->graphCount()) {
+        ui->mainPlot->addGraph();
+    }
+
+    // Set the graph's pen color and name
+    ui->mainPlot->graph(cardIndex)->setPen(QPen(color));
+    ui->mainPlot->graph(cardIndex)->setName(QString("CAN ID %1").arg(canId)); // Set CAN ID as the graph name
+
+    connect(loadCell, &LoadCell::weightChanged, [this, cardIndex](double weight) {
+        if (isSampling) {  // Ensure data is processed only when sampling is active
+            double key = QDateTime::currentDateTime().toMSecsSinceEpoch() / 1000.0;
+
+            if (cardModel->data(cardModel->index(cardIndex), Qt::CheckStateRole).toBool()) {
+                double adjustedWeight = convertWeightToSelectedUnit(weight);
+                ui->mainPlot->graph(cardIndex)->addData(key, adjustedWeight);
+                ui->mainPlot->xAxis->setRange(key, 8, Qt::AlignRight);
+                ui->mainPlot->replot();
+            }
+        }
+        cardModel->updateCard(cardIndex, weight);
+    });
+
+}
+
+
+
+QList<LoadCell*> MainWindow::getLoadCells() const
+{
+    return loadCells;
+}
+
+void MainWindow::openSamplingPage()
+{
+    SamplingPage *samplingPage = new SamplingPage(nullptr, this);
+    samplingPage->setWindowModality(Qt::ApplicationModal);
+    samplingPage->show();
+}
+
+void MainWindow::removeCard()
+{
+    qDebug() << "Entered removeCard()";
+
+    QModelIndex selectedIndex = listView->currentIndex();
+    if (selectedIndex.isValid()) {
+        int row = selectedIndex.row();
+        if (row >= 0 && row < loadCells.size()) {
+            qDebug() << "Removing LoadCell at Row:" << row;
+
+            QColor color = cardModel->data(cardModel->index(row), Qt::DecorationRole).value<QColor>();
+            usedColors.removeOne(color);
+
+            delete loadCells.takeAt(row);
+            cardModel->removeCard(row);
+
+            int graphCount = ui->mainPlot->graphCount();
+            if (row < graphCount) {
+                qDebug() << "Clearing Graph Data at Index:" << row;
+                ui->mainPlot->graph(row)->data()->clear();
+
+                for (int i = row; i < ui->mainPlot->graphCount(); ++i) {
+                    if (i < loadCells.size()) {
+                        loadCells[i]->setIndex(i);
+                        ui->mainPlot->graph(i)->setName(cardModel->cardName(i));
+                        ui->mainPlot->graph(i)->setPen(QPen(cardModel->data(cardModel->index(i), Qt::DecorationRole).value<QColor>()));
+                    }
+                }
+
+                ui->mainPlot->rescaleAxes();
+                ui->mainPlot->replot();
+            } else {
+                qDebug() << "Attempted to remove graph with invalid index" << row;
+            }
+        } else {
+            qDebug() << "Attempted to remove card with invalid index" << row;
+        }
+    } else {
+        qDebug() << "No card selected for removal.";
+    }
+}
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow),
+    listView(new QListView(this)),
+    cardModel(new CardModel(this)), // Initialize based on the checkbox state
+    autoScaleEnabled(false),
+    globalTimer(new QTimer(this)),  // Initialize globalTimer
+    manualRead(new ManualRead())   // Initialize the ManualRead instance
+{
+    ui->setupUi(this);
+    this->resize(1350, 768); // Adjust as needed
+    ui->mainPlot->clearGraphs();
+
+    // Configure X-Axis to show system time
+    QSharedPointer<QCPAxisTickerDateTime> dateTimeTicker(new QCPAxisTickerDateTime);
+    dateTimeTicker->setDateTimeFormat("hh:mm:ss");
+    ui->mainPlot->xAxis->setTicker(dateTimeTicker);
+    ui->mainPlot->xAxis->setLabel("Time");
+
+    // Configure interactions and limits
+    ui->mainPlot->setInteraction(QCP::iRangeDrag, true);    // Enable panning
+    ui->mainPlot->setInteraction(QCP::iRangeZoom, true);    // Enable zooming
+    ui->mainPlot->axisRect()->setRangeZoom(Qt::Horizontal); // Horizontal zoom only
+    ui->mainPlot->axisRect()->setRangeDrag(Qt::Horizontal); // Horizontal drag only
+
+    // Configure Y-Axis to show weight in grams by default
+    ui->mainPlot->yAxis->setLabel("Weight (g)");
+    ui->mainPlot->axisRect()->setupFullAxesBox();
+    ui->mainPlot->yAxis->setRange(-1.2, 1.2); // Default range
+
+    // Synchronize the top and right axes with the bottom and left axes
+    connect(ui->mainPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->mainPlot->xAxis2, SLOT(setRange(QCPRange)));
+    connect(ui->mainPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->mainPlot->yAxis2, SLOT(setRange(QCPRange)));
+
+    // Timer for real-time data
+    connect(globalTimer, &QTimer::timeout, this, &MainWindow::realtimeDataSlot);
+    globalTimer->start(100); // Set the interval to 10 ms
+
+    // ListView setup
+    listView->setModel(cardModel);
+    ui->addButton->setEnabled(false);
+    CardDelegate *cardDelegate = new CardDelegate(this);
+    listView->setItemDelegate(cardDelegate);
+    ui->verticalLayout->addWidget(listView);
+    connect(cardDelegate, &CardDelegate::zeroButtonClicked, this, &MainWindow::zeroButtonClicked);
+    connect(cardDelegate, &CardDelegate::restoreButtonClicked, this, &MainWindow::restoreButtonClicked);
+    // Connect buttons and checkboxes
+    connect(ui->addButton, &QPushButton::clicked, this, &MainWindow::openConnectPopup);
+    connect(ui->advancedCommandButton, &QPushButton::clicked, this, &MainWindow::openAdvancedDialog);
+    connect(ui->removeButton, &QPushButton::clicked, this, &MainWindow::removeCard);
+    connect(ui->CSVButton, &QPushButton::clicked, this, &MainWindow::openSamplingPage);
+    connect(ui->autoBox, &QCheckBox::toggled, this, &MainWindow::toggleAutoScale); // Auto-scale checkbox
+
+    connect(ui->gramCheckbox, &QCheckBox::toggled, this, &MainWindow::updatePlotUnits);
+    connect(ui->poundCheckbox, &QCheckBox::toggled, this, &MainWindow::updatePlotUnits);
+    connect(ui->kilogramCheckbox, &QCheckBox::toggled, this, &MainWindow::updatePlotUnits);
+
+    // Connect start/stop sampling buttons
+    connect(ui->startButton, &QPushButton::clicked, this, &MainWindow::startSampling);
+    connect(ui->stopButton, &QPushButton::clicked, this, &MainWindow::stopSampling);
+    connect(ui->filterConfigButton, &QPushButton::clicked, this, &MainWindow::openFilterConfig);
+    connect(ui->saveCalibrationButton, &QPushButton::clicked, this, &MainWindow::saveCalibrationSetting);
+
+    connect(ui->connectButton, &QPushButton::clicked, this, &MainWindow::CANBusConnect);
+    connect(ui->disconnectButton, &QPushButton::clicked, this, &MainWindow::CANBusDisconnect);
+
+    connect(ui->manualCheckbox, &QCheckBox::toggled, this, &MainWindow::updateYRange);
+    connect(ui->maxBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::updateYRange);
+    connect(ui->minBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::updateYRange);
+    ui->startButton->setEnabled(true);
+    ui->stopButton->setEnabled(false);
+    isSampling = false;
+
+    // Ensure only one unit checkbox is checked at a time
+    QButtonGroup *unitButtonGroup = new QButtonGroup(this);
+    unitButtonGroup->addButton(ui->gramCheckbox);
+    unitButtonGroup->addButton(ui->poundCheckbox);
+    unitButtonGroup->addButton(ui->kilogramCheckbox);
+    unitButtonGroup->setExclusive(true);
+    connect(unitButtonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), this, &MainWindow::updatePlotUnits);
+
+
+    // Custom background color for plot area
+    ui->mainPlot->setBackground(QBrush(QColor(240, 240, 240))); // Light gray background
+
+    // Enable and customize the legend
+    ui->mainPlot->legend->setVisible(true);
+    ui->mainPlot->legend->setBrush(QBrush(QColor(255, 255, 255, 150))); // Semi-transparent white
+    ui->mainPlot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop | Qt::AlignRight);
+}
+
+void MainWindow::openAdvancedDialog()
+{
+    advancedDialog dialog(this);
+    dialog.setWindowModality(Qt::ApplicationModal);
+    dialog.exec();
+}
+
+void MainWindow::saveCalibrationSetting() {
+    LoadCell *selectedLoadCell = getSelectedLoadCell();  // Returns a pointer to the selected LoadCell
+
+    if (!selectedLoadCell) {
+        qDebug() << "No load cell selected.";
+        return;
+    }
+
+    int canId = selectedLoadCell->getCanId();  // Assuming this method exists to get the CAN ID
+    ManualRead *manualRead = selectedLoadCell->getManualRead();  // Assuming you have a method to get ManualRead object
+
+    // Command to read the number of calibration points
+    std::vector<BYTE> readCalibrationPointsCommand = { 0x40, 0x04, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00 };
+    readCalibrationPointsCommand[1] = static_cast<BYTE>(canId & 0xFF);
+    manualRead->SendMessages(readCalibrationPointsCommand, canId);
+
+    std::pair<TPCANStatus, std::vector<BYTE>> result;
+    std::vector<BYTE> response;
+    bool correctResponseReceived = false;
+
+    // Loop to wait for the correct response
+    for (int attempt = 0; attempt < 5; ++attempt) {  // Limit the number of attempts
+        result = manualRead->ReadMessages();
+        response = result.second;
+
+        std::stringstream ss;
+        ss << "Response Data (Hex): ";
+        for (BYTE byte : response) {
+            ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << " ";
+        }
+        qDebug().noquote() << QString::fromStdString(ss.str()).trimmed();
+
+        if (response.size() >= 8 && response[0] == 0x43 && response[1] == 0x04 && response[2] == 0x20 && response[3] == 0x00) {
+            correctResponseReceived = true;
+            break;  // Exit the loop if the correct response is received
+        }
+
+        QThread::msleep(100);  // Wait a short time before trying again
+    }
+
+    if (correctResponseReceived) {
+        int numPoints = (response[7] << 24) | (response[6] << 16) | (response[5] << 8) | response[4];
+
+        // Print the number of points for debugging
+        qDebug() << "Number of Calibration Points:" << numPoints;
+
+        // Prepare to read each calibration point
+        QString fileName = QFileDialog::getSaveFileName(this, "Save Calibration Points", "", "Text Files (*.txt)");
+        if (fileName.isEmpty()) {
+            qDebug() << "No file selected for saving calibration points.";
+            return;
+        }
+
+        QFile file(fileName);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QMessageBox::critical(this, "Error", "Failed to open file for writing.");
+            return;
+        }
+
+        QTextStream out(&file);
+
+        for (int i = 0; i < numPoints; ++i) {
+            // Read each calibration point
+            std::vector<BYTE> readCalibrationPointCommand = { 0x40, static_cast<BYTE>(0x0E + i), 0x20, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            readCalibrationPointCommand[1] = static_cast<BYTE>(canId & 0xFF);
+            manualRead->SendMessages(readCalibrationPointCommand, canId);
+
+            // Loop to wait for the correct response
+            for (int attempt = 0; attempt < 5; ++attempt) {
+                result = manualRead->ReadMessages();
+                response = result.second;
+
+                QString hexResponse;
+                for (BYTE byte : response) {
+                    hexResponse += QString::asprintf("%02X ", byte);
+                }
+                qDebug() << "Response Data (Hex):" << hexResponse;
+
+                if (response.size() >= 8 && response[0] == 0x43 && response[1] == 0x0E + i && response[2] == 0x20 && response[3] == 0x00) {
+                    int calibrationPoint = (response[7] << 24) | (response[6] << 16) | (response[5] << 8) | response[4];
+                    out << "Calibration Point " << (i + 1) << ": " << calibrationPoint << "\n";
+                    break;  // Exit the loop if the correct response is received
+                }
+
+                QThread::msleep(100);  // Wait a short time before trying again
+            }
+        }
+
+        file.close();
+        QMessageBox::information(this, "Success", "Calibration points saved successfully.");
+    } else {
+        qDebug() << "Failed to read number of calibration points.";
+    }
+}
+
+void MainWindow::openFilterConfig() {
+    // Assuming you have a pointer to the selected LoadCell instance
+    LoadCell *selectedLoadCell = getSelectedLoadCell();  // Returns a pointer to the selected LoadCell
+
+    if (selectedLoadCell) {
+        FilterConfig dialog(this, *selectedLoadCell);  // Dereference the pointer to pass the actual object
+        dialog.setWindowModality(Qt::ApplicationModal);
+        dialog.exec();
+    } else {
+        qDebug() << "No load cell selected.";
+    }
+}
+
+
+LoadCell* MainWindow::getSelectedLoadCell() const
+{
+    QModelIndex selectedIndex = listView->currentIndex();
+    if (selectedIndex.isValid()) {
+        int row = selectedIndex.row();
+        if (row >= 0 && row < loadCells.size()) {
+            return loadCells[row];
+        }
+    }
+    return nullptr; // No valid selection
+}
+
+void MainWindow::zeroButtonClicked(const QModelIndex &index)
+{
+    int row = index.row();
+
+    if (row >= 0 && row < loadCells.size()) {
+        int canId = loadCells[row]->getCanId();
+
+        // Define the command
+        const std::vector<BYTE> command = { 0x2F, 0x25, 0x20, 0x02, 0x01, 0x00, 0x00, 0x00 };
+
+        // Send the command with the given CAN ID
+        manualRead->SendMessages(command, canId);
+    } else {
+        QMessageBox::warning(this, "Error", "Invalid card selected.");
+        qDebug() << "Invalid card selection, row:" << row;
+    }
+}
+
+
+void MainWindow::restoreButtonClicked(const QModelIndex &index)
+{
+    int row = index.row();
+
+    if (row >= 0 && row < loadCells.size()) {
+        int canId = loadCells[row]->getCanId();
+
+        // Define the command
+        const std::vector<BYTE> command = { 0x2F, 0x25, 0x20, 0x02, 0x00, 0x00, 0x00, 0x00 };
+
+        // Send the command with the given CAN ID
+        manualRead->SendMessages(command, canId);
+    } else {
+        QMessageBox::warning(this, "Error", "Invalid card selected.");
+        qDebug() << "Invalid card selection, row:" << row;
+    }
+}
+
+void MainWindow::CANBusConnect()
+{
+    TPCANStatus stsResult = CAN_Initialize(PcanHandle, Bitrate);
+
+    if (stsResult == PCAN_ERROR_OK)
+    {
+        // Success case
+        QMessageBox::information(this, "CAN Initialization", "CAN interface initialized successfully.");
+        ui->statusLabel->setText("Status: Connected");
+        ui->addButton->setEnabled(true);
+    }
+    else
+    {
+        // Failure case
+        QMessageBox::critical(this, "CAN Initialization Error", "Cannot initialize CAN. Please check your settings.");
+    }
+}
+
+
+void MainWindow::CANBusDisconnect()
+{
+    TPCANStatus stsResult = CAN_Uninitialize(PcanHandle);
+
+    if (stsResult == PCAN_ERROR_OK)
+    {
+        // Success case
+        QMessageBox::information(this, "CAN Uninitialization", "CAN interface uninitialized successfully.");
+        ui->statusLabel->setText("Status: Disconnected");
+        isSampling=false;
+        ui->addButton->setEnabled(false);
+    }
+    else
+    {
+        // Failure case
+        QMessageBox::critical(this, "CAN Uninitialization Error", "Cannot uninitialize CAN. Please check your settings.");
+    }
+}
+
+
+void MainWindow::updateYRange()
+{
+    if (ui->manualCheckbox->isChecked()) {
+        // Read values from maxBox and minBox
+        double minY = ui->minBox->value();
+        double maxY = ui->maxBox->value();
+
+        if (maxY > minY) {
+            ui->mainPlot->yAxis->setRange(minY, maxY);
+        } else {
+            QMessageBox::warning(this, "Invalid Range", "Maximum value must be greater than minimum value.");
+        }
+    } else {
+        // Reset to default range if manual mode is off
+        ui->mainPlot->yAxis->setRange(-1.2, 1.2);
+    }
+
+    ui->mainPlot->replot(); // Redraw the plot with the new settings
+}
+
+void MainWindow::startSampling()
+{
+    startTime = QDateTime::currentDateTime(); // Initialize start time
+    ui->startButton->setEnabled(false);
+    ui->stopButton->setEnabled(true);
+    isSampling = true;
+}
+
+
+void MainWindow::stopSampling()
+{
+    // dataTimer.stop();  // Stop the timer
+    ui->startButton->setEnabled(true);
+    ui->stopButton->setEnabled(false);
+    isSampling = false;
+}
+
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::toggleAutoScale(bool checked)
+{
+    autoScaleEnabled = checked;
+}
+
+double MainWindow::convertWeightToSelectedUnit(double weight)
+{
+    if (ui->gramCheckbox->isChecked()) {
+        return weight; // Already in grams
+    } else if (ui->poundCheckbox->isChecked()) {
+        return weight / 453.592; // Convert grams to pounds
+    } else if (ui->kilogramCheckbox->isChecked()) {
+        return weight / 1000.0; // Convert grams to kilograms
+    }
+    return weight; // Fallback
+}
+
+void MainWindow::updatePlotUnits()
+{
+    // Determine which unit is selected and update the CardModel
+    if (ui->gramCheckbox->isChecked()) {
+        ui->poundCheckbox->setChecked(false);
+        ui->kilogramCheckbox->setChecked(false);
+        ui->mainPlot->yAxis->setLabel("Weight (g)");
+        cardModel->setWeightUnit(CardModel::Grams);
+
+    } else if (ui->poundCheckbox->isChecked()) {
+        ui->gramCheckbox->setChecked(false);
+        ui->kilogramCheckbox->setChecked(false);
+        ui->mainPlot->yAxis->setLabel("Weight (lb)");
+        cardModel->setWeightUnit(CardModel::Pounds);
+
+    } else if (ui->kilogramCheckbox->isChecked()) {
+        ui->gramCheckbox->setChecked(false);
+        ui->poundCheckbox->setChecked(false);
+        ui->mainPlot->yAxis->setLabel("Weight (kg)");
+        cardModel->setWeightUnit(CardModel::Kilograms);
+    }
+
+    // Update the plots to reflect the new unit
+    for (int i = 0; i < ui->mainPlot->graphCount(); ++i) {
+        QCPGraph *graph = ui->mainPlot->graph(i);
+        QSharedPointer<QCPGraphDataContainer> dataContainer = graph->data();
+
+        double conversionFactor = 1.0;
+        switch (cardModel->getWeightUnit()) {
+        case CardModel::Grams:
+            conversionFactor = 1.0;
+            break;
+        case CardModel::Pounds:
+            conversionFactor = 1.0 / 453.592;
+            break;
+        case CardModel::Kilograms:
+            conversionFactor = 1.0 / 1000.0;
+            break;
+        }
+
+        // Apply conversion to each data point
+        for (auto it = dataContainer->begin(); it != dataContainer->end(); ++it) {
+            it->value *= conversionFactor;
+        }
+    }
+
+    ui->mainPlot->replot(); // Redraw the plot with the new settings
+}
+
+void MainWindow::realtimeDataSlot()
+{
+    if (!isSampling) return;
+
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    double key = currentDateTime.toMSecsSinceEpoch() / 1000.0;
+
+    bool rescaleNeeded = false;
+    double maxYValue = std::numeric_limits<double>::min(); // Track the highest y-axis value within the visible range
+
+    double visibleRangeStart = key - 8;  // Assuming you want to show the last 8 seconds
+
+    for (int i = 0; i < loadCells.size(); ++i) {
+        if (i < ui->mainPlot->graphCount()) {
+            if (cardModel->data(cardModel->index(i), Qt::CheckStateRole).toBool()) {
+                double weight = convertWeightToSelectedUnit(loadCells[i]->currentWeight());
+                ui->mainPlot->graph(i)->addData(key, weight);
+
+                // Iterate over data points within the visible range to find the maximum Y value
+                QCPGraphDataContainer::const_iterator it = ui->mainPlot->graph(i)->data()->constBegin();
+                while (it != ui->mainPlot->graph(i)->data()->constEnd()) {
+                    if (it->key >= visibleRangeStart && it->key <= key) {
+                        if (it->value > maxYValue) {
+                            maxYValue = it->value;
+                            rescaleNeeded = true;
+                        }
+                    }
+                    ++it;
+                }
+            }
+        }
+    }
+
+    // Update x-axis range
+    ui->mainPlot->xAxis->setRange(visibleRangeStart, key);
+
+    // Initial y-axis range setting if no data is present
+    if (maxYValue == std::numeric_limits<double>::min()) {
+        ui->mainPlot->yAxis->setRange(0, 1); // Set a default y-axis range
+    }
+
+    if (rescaleNeeded && autoScaleEnabled) {
+        double marginFactor = 0.1; // 10% margin
+        double margin = maxYValue * marginFactor;
+        ui->mainPlot->yAxis->setRange(0, maxYValue + margin); // Add margin to maxYValue
+    }
+
+    ui->mainPlot->replot();
+}
+
+
+
+// void MainWindow::realtimeDataSlot()
+// {
+//     if (!isSampling) return;
+
+//     QDateTime currentDateTime = QDateTime::currentDateTime();
+//     double key = currentDateTime.toMSecsSinceEpoch() / 1000.0;
+
+//     bool rescaleNeeded = false;
+//     double maxYValue = std::numeric_limits<double>::min(); // Track the highest y-axis value within the visible range
+
+//     double visibleRangeStart = key - 8;  // Assuming you want to show the last 8 seconds
+
+//     for (int i = 0; i < loadCells.size(); ++i) {
+//         if (i < ui->mainPlot->graphCount()) {
+//             if (cardModel->data(cardModel->index(i), Qt::CheckStateRole).toBool()) {
+//                 double weight = convertWeightToSelectedUnit(loadCells[i]->currentWeight());
+//                 ui->mainPlot->graph(i)->addData(key, weight);
+
+//                 // Iterate over data points within the visible range to find the maximum Y value
+//                 QCPGraphDataContainer::const_iterator it = ui->mainPlot->graph(i)->data()->constBegin();
+//                 while (it != ui->mainPlot->graph(i)->data()->constEnd()) {
+//                     if (it->key >= visibleRangeStart && it->key <= key) {
+//                         if (it->value > maxYValue) {
+//                             maxYValue = it->value;
+//                             rescaleNeeded = true;
+//                         }
+//                     }
+//                     ++it;
+//                 }
+//             }
+//         }
+//     }
+
+//     ui->mainPlot->xAxis->setRange(visibleRangeStart, key);
+
+//     if (rescaleNeeded && autoScaleEnabled) {
+//         double marginFactor = 0.1; // 10% margin
+//         double margin = maxYValue * marginFactor;
+//         ui->mainPlot->yAxis->setRange(0, maxYValue + margin); // Add margin to maxYValue
+//     }
+//     }
+
+// void MainWindow::realtimeDataSlot()
+// {
+
+//     if (!isSampling) return;
+//     QDateTime currentDateTime = QDateTime::currentDateTime();
+//     double key = currentDateTime.toMSecsSinceEpoch() / 1000.0;
+
+//     bool rescaleNeeded = false;
+
+//     for (int i = 0; i < loadCells.size(); ++i) {
+//         if (i < ui->mainPlot->graphCount()) {
+//             if (cardModel->data(cardModel->index(i), Qt::CheckStateRole).toBool()) {
+//                 double weight = convertWeightToSelectedUnit(loadCells[i]->currentWeight());
+//                 ui->mainPlot->graph(i)->addData(key, weight);
+//                 rescaleNeeded = true;
+//             }
+//         }
+//     }
+//     ui->mainPlot->xAxis->setRange(key - 8, key);
+
+//     if (rescaleNeeded && autoScaleEnabled) {
+//         ui->mainPlot->rescaleAxes();
+//     }
+
+//     ui->mainPlot->replot();
+// }
