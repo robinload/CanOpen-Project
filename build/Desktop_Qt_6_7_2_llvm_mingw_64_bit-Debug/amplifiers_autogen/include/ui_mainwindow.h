@@ -19,6 +19,7 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
@@ -33,11 +34,8 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QCustomPlot *mainPlot;
-    QWidget *verticalLayoutWidget;
-    QVBoxLayout *verticalLayout;
     QPushButton *addButton;
     QPushButton *removeButton;
-    QLabel *label;
     QTabWidget *tabWidget;
     QWidget *tab;
     QWidget *verticalLayoutWidget_2;
@@ -46,11 +44,6 @@ public:
     QCheckBox *gramCheckbox;
     QCheckBox *kilogramCheckbox;
     QLabel *label_2;
-    QLabel *label_3;
-    QWidget *verticalLayoutWidget_4;
-    QVBoxLayout *verticalLayout_4;
-    QCheckBox *datetimeCheckbox;
-    QCheckBox *elapsedTimeCheckbox;
     QWidget *tab_2;
     QCheckBox *autoBox;
     QPushButton *CSVButton;
@@ -72,9 +65,16 @@ public:
     QPushButton *advancedCommandButton;
     QPushButton *pushButton_3;
     QPushButton *filterConfigButton;
+    QWidget *horizontalLayoutWidget;
+    QHBoxLayout *horizontalLayout_3;
     QPushButton *connectButton;
     QPushButton *disconnectButton;
     QLabel *statusLabel;
+    QSpacerItem *horizontalSpacer;
+    QWidget *verticalLayoutWidget_4;
+    QVBoxLayout *verticalLayout_6;
+    QLabel *label;
+    QVBoxLayout *verticalLayout;
     QMenuBar *menubar;
     QMenu *menuHi;
     QStatusBar *statusbar;
@@ -88,22 +88,13 @@ public:
         centralwidget->setObjectName("centralwidget");
         mainPlot = new QCustomPlot(centralwidget);
         mainPlot->setObjectName("mainPlot");
-        mainPlot->setGeometry(QRect(270, 50, 831, 641));
-        verticalLayoutWidget = new QWidget(centralwidget);
-        verticalLayoutWidget->setObjectName("verticalLayoutWidget");
-        verticalLayoutWidget->setGeometry(QRect(20, 90, 231, 571));
-        verticalLayout = new QVBoxLayout(verticalLayoutWidget);
-        verticalLayout->setObjectName("verticalLayout");
-        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        mainPlot->setGeometry(QRect(250, 80, 851, 611));
         addButton = new QPushButton(centralwidget);
         addButton->setObjectName("addButton");
         addButton->setGeometry(QRect(20, 670, 101, 31));
         removeButton = new QPushButton(centralwidget);
         removeButton->setObjectName("removeButton");
         removeButton->setGeometry(QRect(150, 670, 101, 31));
-        label = new QLabel(centralwidget);
-        label->setObjectName("label");
-        label->setGeometry(QRect(20, 50, 221, 31));
         tabWidget = new QTabWidget(centralwidget);
         tabWidget->setObjectName("tabWidget");
         tabWidget->setGeometry(QRect(1120, 50, 181, 281));
@@ -122,6 +113,7 @@ public:
 
         gramCheckbox = new QCheckBox(verticalLayoutWidget_2);
         gramCheckbox->setObjectName("gramCheckbox");
+        gramCheckbox->setChecked(true);
 
         verticalLayout_2->addWidget(gramCheckbox);
 
@@ -133,25 +125,6 @@ public:
         label_2 = new QLabel(tab);
         label_2->setObjectName("label_2");
         label_2->setGeometry(QRect(10, 10, 141, 20));
-        label_3 = new QLabel(tab);
-        label_3->setObjectName("label_3");
-        label_3->setGeometry(QRect(10, 120, 151, 21));
-        verticalLayoutWidget_4 = new QWidget(tab);
-        verticalLayoutWidget_4->setObjectName("verticalLayoutWidget_4");
-        verticalLayoutWidget_4->setGeometry(QRect(10, 150, 177, 78));
-        verticalLayout_4 = new QVBoxLayout(verticalLayoutWidget_4);
-        verticalLayout_4->setObjectName("verticalLayout_4");
-        verticalLayout_4->setContentsMargins(0, 0, 0, 0);
-        datetimeCheckbox = new QCheckBox(verticalLayoutWidget_4);
-        datetimeCheckbox->setObjectName("datetimeCheckbox");
-
-        verticalLayout_4->addWidget(datetimeCheckbox);
-
-        elapsedTimeCheckbox = new QCheckBox(verticalLayoutWidget_4);
-        elapsedTimeCheckbox->setObjectName("elapsedTimeCheckbox");
-
-        verticalLayout_4->addWidget(elapsedTimeCheckbox);
-
         tabWidget->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName("tab_2");
@@ -159,10 +132,10 @@ public:
         autoBox->setObjectName("autoBox");
         autoBox->setEnabled(true);
         autoBox->setGeometry(QRect(10, 10, 161, 21));
-        autoBox->setChecked(false);
+        autoBox->setChecked(true);
         CSVButton = new QPushButton(tab_2);
         CSVButton->setObjectName("CSVButton");
-        CSVButton->setGeometry(QRect(10, 190, 91, 31));
+        CSVButton->setGeometry(QRect(10, 190, 161, 31));
         manualCheckbox = new QCheckBox(tab_2);
         manualCheckbox->setObjectName("manualCheckbox");
         manualCheckbox->setGeometry(QRect(10, 40, 101, 21));
@@ -244,19 +217,52 @@ public:
 
         verticalLayout_5->addWidget(filterConfigButton);
 
-        connectButton = new QPushButton(centralwidget);
+        horizontalLayoutWidget = new QWidget(centralwidget);
+        horizontalLayoutWidget->setObjectName("horizontalLayoutWidget");
+        horizontalLayoutWidget->setGeometry(QRect(250, 0, 641, 61));
+        horizontalLayout_3 = new QHBoxLayout(horizontalLayoutWidget);
+        horizontalLayout_3->setObjectName("horizontalLayout_3");
+        horizontalLayout_3->setContentsMargins(0, 0, 0, 0);
+        connectButton = new QPushButton(horizontalLayoutWidget);
         connectButton->setObjectName("connectButton");
-        connectButton->setGeometry(QRect(270, 20, 111, 31));
-        disconnectButton = new QPushButton(centralwidget);
+
+        horizontalLayout_3->addWidget(connectButton);
+
+        disconnectButton = new QPushButton(horizontalLayoutWidget);
         disconnectButton->setObjectName("disconnectButton");
-        disconnectButton->setGeometry(QRect(400, 20, 111, 31));
-        statusLabel = new QLabel(centralwidget);
+
+        horizontalLayout_3->addWidget(disconnectButton);
+
+        statusLabel = new QLabel(horizontalLayoutWidget);
         statusLabel->setObjectName("statusLabel");
-        statusLabel->setGeometry(QRect(540, 20, 131, 21));
+
+        horizontalLayout_3->addWidget(statusLabel);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer);
+
+        verticalLayoutWidget_4 = new QWidget(centralwidget);
+        verticalLayoutWidget_4->setObjectName("verticalLayoutWidget_4");
+        verticalLayoutWidget_4->setGeometry(QRect(20, 80, 221, 571));
+        verticalLayout_6 = new QVBoxLayout(verticalLayoutWidget_4);
+        verticalLayout_6->setObjectName("verticalLayout_6");
+        verticalLayout_6->setContentsMargins(0, 0, 0, 0);
+        label = new QLabel(verticalLayoutWidget_4);
+        label->setObjectName("label");
+
+        verticalLayout_6->addWidget(label);
+
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName("verticalLayout");
+
+        verticalLayout_6->addLayout(verticalLayout);
+
+        verticalLayout_6->setStretch(1, 1);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1347, 21));
+        menubar->setGeometry(QRect(0, 0, 1347, 19));
         menuHi = new QMenu(menubar);
         menuHi->setObjectName("menuHi");
         MainWindow->setMenuBar(menubar);
@@ -279,14 +285,10 @@ public:
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         addButton->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
         removeButton->setText(QCoreApplication::translate("MainWindow", "Remove", nullptr));
-        label->setText(QCoreApplication::translate("MainWindow", "Connected Devices:", nullptr));
         poundCheckbox->setText(QCoreApplication::translate("MainWindow", "Pound", nullptr));
         gramCheckbox->setText(QCoreApplication::translate("MainWindow", "Gram", nullptr));
         kilogramCheckbox->setText(QCoreApplication::translate("MainWindow", "Kilogram", nullptr));
-        label_2->setText(QCoreApplication::translate("MainWindow", "Weight Axes Unit:", nullptr));
-        label_3->setText(QCoreApplication::translate("MainWindow", "Time Axes Unit:", nullptr));
-        datetimeCheckbox->setText(QCoreApplication::translate("MainWindow", "Datetime(HH:MM:SS)", nullptr));
-        elapsedTimeCheckbox->setText(QCoreApplication::translate("MainWindow", "Elapsed Time(HH:MM:SS)", nullptr));
+        label_2->setText(QCoreApplication::translate("MainWindow", "Weight Unit:", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab), QCoreApplication::translate("MainWindow", "Tab 1", nullptr));
         autoBox->setText(QCoreApplication::translate("MainWindow", "Auto Scaling", nullptr));
         CSVButton->setText(QCoreApplication::translate("MainWindow", "CSV Output", nullptr));
@@ -296,14 +298,15 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("MainWindow", "Tab 2", nullptr));
         startButton->setText(QCoreApplication::translate("MainWindow", "START", nullptr));
         stopButton->setText(QCoreApplication::translate("MainWindow", "STOP", nullptr));
-        saveCalibrationButton->setText(QCoreApplication::translate("MainWindow", "Save Calibration Setting", nullptr));
-        loadCalibrationButton->setText(QCoreApplication::translate("MainWindow", "Load Calibration Setting", nullptr));
+        saveCalibrationButton->setText(QCoreApplication::translate("MainWindow", "Save Calibration", nullptr));
+        loadCalibrationButton->setText(QCoreApplication::translate("MainWindow", "Load Calibration ", nullptr));
         advancedCommandButton->setText(QCoreApplication::translate("MainWindow", "Advanced Send", nullptr));
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "Zero All", nullptr));
         filterConfigButton->setText(QCoreApplication::translate("MainWindow", "Filter Config", nullptr));
         connectButton->setText(QCoreApplication::translate("MainWindow", "Connect", nullptr));
         disconnectButton->setText(QCoreApplication::translate("MainWindow", "Disconnect", nullptr));
         statusLabel->setText(QCoreApplication::translate("MainWindow", "Status: Disconnected", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "Connected Devices:", nullptr));
         menuHi->setTitle(QCoreApplication::translate("MainWindow", "ANYLOAD", nullptr));
     } // retranslateUi
 

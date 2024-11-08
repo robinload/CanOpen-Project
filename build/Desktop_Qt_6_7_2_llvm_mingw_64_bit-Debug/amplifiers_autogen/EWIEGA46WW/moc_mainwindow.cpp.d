@@ -2,6 +2,7 @@ C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/b
   C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/amplifiers_autogen/moc_predefs.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/QAbstractListModel \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/QDateTime \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/QMutex \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/QObject \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/QPair \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/QStringList \
@@ -42,7 +43,9 @@ C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/b
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qdarwinhelpers.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qdatastream.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qdatetime.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qdeadlinetimer.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qdebug.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qelapsedtimer.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qendian.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qexceptionhandling.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qflags.h \
@@ -71,6 +74,7 @@ C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/b
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qmetacontainer.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qmetatype.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qminmax.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qmutex.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qnamespace.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qnumeric.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qobject.h \
@@ -120,6 +124,7 @@ C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/b
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qtnoop.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qtpreprocessorsupport.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qtresource.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qtsan_impl.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qttranslation.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qttypetraits.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qtversion.h \

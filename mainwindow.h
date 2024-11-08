@@ -8,6 +8,7 @@
 #include "cardmodel.h"
 #include "commanddialog.h"
 #include <QDateTime>
+#include <QMutex>
 
 namespace Ui {
 class MainWindow;
@@ -21,6 +22,9 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     QList<LoadCell*> getLoadCells() const;
+    QList<int> getAllCanIds();
+    QMutex loadCellsMutex;  // Mutex to protect access to loadCells
+
 
 private slots:
     void realtimeDataSlot();
@@ -39,14 +43,16 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QList<LoadCell*> loadCells;
     QTimer *globalTimer;  // Declare globalTimer as a member
     QListView *listView;
     ManualRead *manualRead; // Pointer to the ManualRead instance
     CardModel *cardModel;
     QDateTime startTime; // New member for tracking the start time
-    QList<LoadCell*> loadCells;
+
     QWidget *calibrationPopupWidget; // Pointer to the popup widget
     QList<QColor> usedColors;
+
     QColor getAvailableColor();
     void CANBusConnect();
     void CANBusDisconnect();

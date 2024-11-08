@@ -25,7 +25,7 @@
         <item>
          <widget class="QLabel" name="intervalLabel">
           <property name="text">
-           <string>Sampling Interval (s):</string>
+           <string>Sampling Interval (ms):</string>
           </property>
          </widget>
         </item>
@@ -59,7 +59,7 @@
            <number>1</number>
           </property>
           <property name="maximum">
-           <number>3600</number> <!-- 1 hour maximum -->
+           <number>3600</number>
           </property>
           <property name="value">
            <number>10</number>

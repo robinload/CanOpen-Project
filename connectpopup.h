@@ -7,6 +7,8 @@
 #include <vector>
 #include <QVector>
 #include <QTimer>  // Include QTimer
+#include "mainwindow.h"
+#include <QMutex>
 
 namespace Ui {
 class connectPopup;
@@ -17,7 +19,7 @@ class connectPopup : public QDialog
     Q_OBJECT
 
 public:
-    explicit connectPopup(QTimer *timer,QWidget *parent = nullptr);
+    explicit connectPopup(QTimer *timer, MainWindow *mainWindow, QWidget *parent = nullptr);
     ~connectPopup();
 
 private slots:
@@ -31,6 +33,8 @@ signals:
     void loadCellConnected(LoadCell *loadCell);
 
 private:
+    MainWindow *mainWindow;  // Store a pointer to MainWindow
+    QMutex loadCellsMutex;  // Mutex to protect access to loadCells
     Ui::connectPopup *ui;
     int canId;  // CAN ID member
     int baudRate;

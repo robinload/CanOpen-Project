@@ -1,13 +1,18 @@
 C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/amplifiers_autogen/EWIEGA46WW/moc_connectpopup.cpp: C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/connectpopup.h \
   C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/amplifiers_autogen/moc_predefs.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/QAbstractListModel \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/QDateTime \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/QMutex \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/QObject \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/QPair \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/QStringList \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/QTimer \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/QVector \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/q20memory.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/q20type_traits.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/q23utility.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qabstractitemmodel.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qalgorithms.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qanystringview.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qarraydata.h \
@@ -23,6 +28,7 @@ C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/b
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qbytearrayalgorithms.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qbytearraylist.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qbytearrayview.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qcalendar.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qchar.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qcompare.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qcompare_impl.h \
@@ -36,7 +42,10 @@ C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/b
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qcontiguouscache.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qdarwinhelpers.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qdatastream.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qdatetime.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qdeadlinetimer.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qdebug.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qelapsedtimer.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qendian.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qexceptionhandling.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qflags.h \
@@ -50,11 +59,13 @@ C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/b
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qhash.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qhashfunctions.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qiodevicebase.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qitemselectionmodel.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qiterable.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qiterator.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qlatin1stringview.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qline.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qlist.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qlocale.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qlogging.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qmalloc.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qmap.h \
@@ -63,6 +74,7 @@ C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/b
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qmetacontainer.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qmetatype.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qminmax.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qmutex.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qnamespace.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qnumeric.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qobject.h \
@@ -75,6 +87,7 @@ C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/b
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qprocessordetection.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qrect.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qrefcount.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qregularexpression.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qscopedpointer.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qscopeguard.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qset.h \
@@ -111,6 +124,7 @@ C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/b
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qtnoop.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qtpreprocessorsupport.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qtresource.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qtsan_impl.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qttranslation.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qttypetraits.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qtversion.h \
@@ -124,6 +138,7 @@ C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/b
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qversiontagging.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qxptype_traits.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtCore/qyieldcpu.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtGui/QColor \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtGui/qaction.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtGui/qbitmap.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtGui/qbrush.h \
@@ -147,11 +162,28 @@ C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/b
   C:/Qt/6.7.2/llvm-mingw_64/include/QtGui/qtguiexports.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtGui/qtguiglobal.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtGui/qtransform.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtGui/qvalidator.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtGui/qwindowdefs.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtGui/qwindowdefs_win.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/QDialog \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/QListView \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/QMainWindow \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qabstractitemview.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qabstractscrollarea.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qabstractslider.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qabstractspinbox.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qdialog.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qframe.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qlistview.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qmainwindow.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qrubberband.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qsizepolicy.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qslider.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qstyle.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qstyleoption.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qtabbar.h \
+  C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qtabwidget.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qtwidgets-config.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qtwidgetsexports.h \
   C:/Qt/6.7.2/llvm-mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1164,6 +1196,9 @@ C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/b
   C:/Qt/Tools/llvm-mingw1706_64/lib/clang/17/include/xsavesintrin.h \
   C:/Qt/Tools/llvm-mingw1706_64/lib/clang/17/include/xtestintrin.h \
   C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/PCANBasic.h \
+  C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/cardmodel.h \
+  C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/commanddialog.h \
   C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/loadcell.h \
+  C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/mainwindow.h \
   C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/stdafx.h \
   C:/Users/RobinLee/OneDrive\ -\ ANYLOAD\ Weigh\ &\ Measure/Documents/amplifiers/utility.h

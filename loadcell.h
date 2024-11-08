@@ -43,7 +43,7 @@ public:
     void Config_Init();
     void setZeroPoint(uint32_t zeroPoint);
     void saveCalibrationData();
-
+    void waitForSpecificCANID(uint32_t targetID);
     void connectUpdateADCValue();
     void disconnectUpdateADCValue();
     void connectUpdateWeight();
@@ -58,6 +58,7 @@ private slots:
     void updateWeight();
 
 private:
+    HANDLE hEvent;  // Handle for CAN events
     int index;
     int canId; // Add this member
     double weight;
@@ -65,6 +66,7 @@ private:
     QVector<double> weightPoints;  // Stores weight calibration points
     QVector<int> ADCPoints;
     QTimer *globalTimer; // Pointer to the global timer
+    int expectedReturnId;
 
     double adcValue;
     std::vector<BYTE> rxCommand;

@@ -100,7 +100,7 @@ public:
     {
         SamplingPage->setWindowTitle(QCoreApplication::translate("SamplingPage", "Sampling Page", nullptr));
         samplingGroupBox->setTitle(QCoreApplication::translate("SamplingPage", "Sampling Configuration", nullptr));
-        intervalLabel->setText(QCoreApplication::translate("SamplingPage", "Sampling Interval (s):", nullptr));
+        intervalLabel->setText(QCoreApplication::translate("SamplingPage", "Sampling Interval (ms):", nullptr));
         durationLabel->setText(QCoreApplication::translate("SamplingPage", "Duration (s):", nullptr));
         startButton->setText(QCoreApplication::translate("SamplingPage", "Start Sampling", nullptr));
     } // retranslateUi

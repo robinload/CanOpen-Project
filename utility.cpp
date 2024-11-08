@@ -25,9 +25,9 @@ void ManualRead::SendMessages(const std::vector<BYTE>& data, uint32_t canId)
 
     TPCANStatus stsResult;
     TPCANMsg CANMsg;
-    uint32_t modifiedCanId = (0x06 << 8) | (canId & 0xFF); // Assumes canId is 8-bit
+    // uint32_t modifiedCanId = (0x06 << 8) | (canId & 0xFF); // Assumes canId is 8-bit
 
-    CANMsg.ID = modifiedCanId; // Example ID
+    CANMsg.ID = canId; // Example ID
     CANMsg.MSGTYPE = PCAN_MESSAGE_STANDARD;
     CANMsg.LEN = static_cast<BYTE>(data.size());
 
@@ -126,7 +126,7 @@ std::tuple<TPCANStatus, UINT32, std::vector<BYTE>> ManualRead::ReadMessages()
 {
     TPCANStatus stsResult;
     std::vector<BYTE> allData;
-    UINT32 canId = 0;
+    UINT32 canId=1;
 
     do
     {
@@ -135,8 +135,7 @@ std::tuple<TPCANStatus, UINT32, std::vector<BYTE>> ManualRead::ReadMessages()
         stsResult = status;
         canId = id; // Store the CAN ID
 
-        // Log the CAN ID for debugging in hexadecimal format
-        qDebug() << "CAN ID:" << QString("0x%1").arg(canId, 0, 16).toUpper();
+        // qDebug() << "Inside READ MESSAGES CAN ID:" << QString("%1").arg(canId, 0, 16).toUpper();
 
         if (stsResult != PCAN_ERROR_OK && stsResult != PCAN_ERROR_QRCVEMPTY)
         {
@@ -200,7 +199,8 @@ std::tuple<TPCANStatus, UINT32, std::vector<BYTE>> ManualRead::ReadMessage()
         auto processed = ProcessMessageCan(CANMsg, CANTimeStamp);
         UINT32 canId = processed.first;
         std::vector<BYTE> data = processed.second;
-        // Return the status, CAN ID, and data
+
+        // qDebug() << "Inside READ MESSAGE CAN ID:" << QString("%1").arg(canId, 0, 16).toUpper();
         return std::make_tuple(stsResult, canId, data);
     }
 

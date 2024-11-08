@@ -112,6 +112,7 @@ void advancedDialog::onNextPageButtonClicked()
     }
 }
 
+
 void advancedDialog::onSendButtonClicked()
 {
     bool ok;
@@ -136,15 +137,51 @@ void advancedDialog::onSendButtonClicked()
         return;
     }
 
+    // Send the message
     manualRead->SendMessages(data, canId);
 
-    // Create a string to display the command and CAN ID
+    // Calculate the expected return CAN ID
+    uint32_t expectedReturnId = canId - 0x80; // Subtract 0x80 (128 in decimal)
+
+    TPCANStatus status;
+    UINT32 responseId;
+    std::vector<BYTE> rxCommand;
+    int attempts = 0;
+    const int maxAttempts = 20;
+
+    // Try reading the correct response up to 20 times
+    do {
+        std::tuple<TPCANStatus, UINT32, std::vector<BYTE>> result = manualRead->ReadMessage();
+        status = std::get<0>(result);
+        responseId = std::get<1>(result);
+        rxCommand = std::get<2>(result);
+
+        attempts++;
+    } while (responseId != expectedReturnId && attempts < maxAttempts);
+
     QString message;
-    message.append(tr("Command sent: "));
-    for (BYTE byte : data) {
-        message.append(QString("%1 ").arg(byte, 2, 16, QLatin1Char('0')).toUpper()); // Format bytes in hex
+
+    if (responseId == expectedReturnId) {
+        // If the correct response is received, format the sent and received data for display
+        message.append(tr("Command sent: "));
+        for (BYTE byte : data) {
+            message.append(QString("%1 ").arg(byte, 2, 16, QLatin1Char('0')).toUpper()); // Format bytes in hex
+        }
+        message.append(tr("\nCAN ID: %1").arg(canId, 8, 16, QLatin1Char('0')).toUpper()); // Format CAN ID in hex
+
+        message.append(tr("\n\nResponse received:\n"));
+        message.append(tr("Response ID: %1\n").arg(responseId, 8, 16, QLatin1Char('0')).toUpper());
+
+        message.append("Data: ");
+        for (BYTE byte : rxCommand) {
+            message.append(QString("%1 ").arg(byte, 2, 16, QLatin1Char('0')).toUpper());
+        }
+    } else {
+        // If no correct response is received after 20 attempts, show an error message
+        message.append(tr("Error: Failed to receive the expected response within 20 attempts.\n"));
+        message.append(tr("Expected Response ID: %1\n").arg(expectedReturnId, 8, 16, QLatin1Char('0')).toUpper());
+        message.append(tr("Last Response ID received: %1").arg(responseId, 8, 16, QLatin1Char('0')).toUpper());
     }
-    message.append(tr("\nCAN ID: %1").arg(canId, 8, 16, QLatin1Char('0')).toUpper()); // Format CAN ID in hex
 
     // Show the QMessageBox with the information
     QMessageBox::information(this, tr("Command Sent"), message);

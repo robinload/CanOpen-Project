@@ -38,6 +38,7 @@ public:
     ~ManualRead();
     void SendMessages(const std::vector<BYTE>& data, uint32_t canId);
     std::tuple<TPCANStatus, UINT32, std::vector<BYTE>> ReadMessages();
+    std::tuple<TPCANStatus, UINT32, std::vector<BYTE>> ReadMessage();
 
 private:
     /// <summary>
@@ -58,7 +59,7 @@ private:
     /// </summary>
     /// <returns>A TPCANStatus error code</returns>
     // std::pair<TPCANStatus, std::vector<BYTE>> ReadMessage();
-    std::tuple<TPCANStatus, UINT32, std::vector<BYTE>> ReadMessage();
+
 
     /// <summary>
     /// Processes a received CAN message

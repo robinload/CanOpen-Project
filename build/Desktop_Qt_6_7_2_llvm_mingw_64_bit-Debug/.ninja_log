@@ -1,64 +1,45 @@
 # ninja log v6
-3708	3870	7482335938946598	CMakeFiles/amplifiers.dir/globals.cpp.obj	5b705418809c15aa
-3664	7505	7482335938502006	CMakeFiles/amplifiers.dir/loadcell.cpp.obj	6ffa33c63513e888
-3646	9888	7482335938328094	CMakeFiles/amplifiers.dir/mainwindow.cpp.obj	80ba4785dcacbffe
-273	1916	7460497269472615	CMakeFiles/amplifiers.dir/7f428323a2f6bc5f96291c4e38dc1273/Samples/Console/NativeC++/03_ManualRead/03_ManualRead.cpp.obj	1ac5ac20b92b087c
-3687	7223	7482335938733581	CMakeFiles/amplifiers.dir/utility.cpp.obj	67eac97df70bc8c3
-49	3639	7482335933921914	amplifiers_autogen/mocs_compilation.cpp	ad08c72690a4fdf8
+1067	11173	7520652624651115	CMakeFiles/amplifiers.dir/qcustomplot.cpp.obj	a8ef45748bae5a15
+1108	4271	7520652625066739	CMakeFiles/amplifiers.dir/advanceddialog.cpp.obj	3b4c08ccaed84b54
+109	1056	7520652615081189	C:/Users/RobinLee/OneDrive - ANYLOAD Weigh & Measure/Documents/amplifiers/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/amplifiers_autogen/mocs_compilation.cpp	ad08c72690a4fdf8
+11173	11371	7520652725721069	amplifiers.exe	5b083f81a6b165ea
+1088	4638	7520652624866717	CMakeFiles/amplifiers.dir/connectpopup.cpp.obj	89a7b9c4e40ffe8f
+1100	3913	7520652624986646	CMakeFiles/amplifiers.dir/utility.cpp.obj	67eac97df70bc8c3
+109	1056	7520652615081189	amplifiers_autogen/timestamp	ad08c72690a4fdf8
+1059	4312	7520652624581078	CMakeFiles/amplifiers.dir/main.cpp.obj	3472a03bd21bcb0
+1102	3139	7520652625016688	CMakeFiles/amplifiers.dir/globaltimer.cpp.obj	1ea7e2499f316301
+109	1056	7520652615081189	amplifiers_autogen/mocs_compilation.cpp	ad08c72690a4fdf8
 292	2512	7464167454601415	CMakeFiles/amplifiers.dir/commanddialog.cpp.obj	de2f83cfbf4d947
-3697	6005	7482335938827557	CMakeFiles/amplifiers.dir/globaltimer.cpp.obj	1ea7e2499f316301
-3644	7385	7482335938298433	CMakeFiles/amplifiers.dir/main.cpp.obj	3472a03bd21bcb0
-49	3639	7482335933921914	amplifiers_autogen/timestamp	ad08c72690a4fdf8
-3671	7697	7482335938571884	CMakeFiles/amplifiers.dir/connectpopup.cpp.obj	89a7b9c4e40ffe8f
-14546	14681	7482336047321195	amplifiers.exe	5b083f81a6b165ea
-49	3639	7482335933921914	C:/Users/RobinLee/OneDrive - ANYLOAD Weigh & Measure/Documents/amplifiers/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/amplifiers_autogen/mocs_compilation.cpp	ad08c72690a4fdf8
-3641	11951	7482335938268611	CMakeFiles/amplifiers.dir/amplifiers_autogen/mocs_compilation.cpp.obj	c1000d9e8b91ae26
-49	3639	7482335933921914	C:/Users/RobinLee/OneDrive - ANYLOAD Weigh & Measure/Documents/amplifiers/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/amplifiers_autogen/timestamp	ad08c72690a4fdf8
-3715	7092	7482335939016590	CMakeFiles/amplifiers.dir/filterconfig.cpp.obj	99af6d5e4ca7f8ef
-3681	7699	7482335938672432	CMakeFiles/amplifiers.dir/samplingpage.cpp.obj	6b6d6f852b1cc680
-3658	6682	7482335938438043	CMakeFiles/amplifiers.dir/carddelegate.cpp.obj	da057e952af8a9d6
+1114	4220	7520652625126661	CMakeFiles/amplifiers.dir/filterconfig.cpp.obj	99af6d5e4ca7f8ef
+1097	4614	7520652624956642	CMakeFiles/amplifiers.dir/samplingpage.cpp.obj	6b6d6f852b1cc680
+1078	3802	7520652624771283	CMakeFiles/amplifiers.dir/carddelegate.cpp.obj	da057e952af8a9d6
+1057	8627	7520652624551355	CMakeFiles/amplifiers.dir/amplifiers_autogen/mocs_compilation.cpp.obj	c1000d9e8b91ae26
 347	3058	7464856536035618	CMakeFiles/amplifiers.dir/advancedcommanddialog.cpp.obj	ba3c5d5463914c60
-3650	14546	7482335938358040	CMakeFiles/amplifiers.dir/qcustomplot.cpp.obj	a8ef45748bae5a15
-3703	7233	7482335938896494	CMakeFiles/amplifiers.dir/advanceddialog.cpp.obj	3b4c08ccaed84b54
-3676	6516	7482335938616793	CMakeFiles/amplifiers.dir/configdialog.cpp.obj	ba736b377f84a8e2
-3654	6241	7482335938398034	CMakeFiles/amplifiers.dir/cardmodel.cpp.obj	e723c7d85c87f209
-38	410	7482336685122465	amplifiers_autogen/timestamp	ad08c72690a4fdf8
-38	410	7482336685122465	amplifiers_autogen/mocs_compilation.cpp	ad08c72690a4fdf8
-38	410	7482336685122465	C:/Users/RobinLee/OneDrive - ANYLOAD Weigh & Measure/Documents/amplifiers/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/amplifiers_autogen/timestamp	ad08c72690a4fdf8
-38	410	7482336685122465	C:/Users/RobinLee/OneDrive - ANYLOAD Weigh & Measure/Documents/amplifiers/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/amplifiers_autogen/mocs_compilation.cpp	ad08c72690a4fdf8
-515	596	7482336689893932	CMakeFiles/amplifiers.dir/globals.cpp.obj	5b705418809c15aa
-498	3636	7482336689716750	CMakeFiles/amplifiers.dir/globaltimer.cpp.obj	1ea7e2499f316301
-432	3709	7482336689058234	CMakeFiles/amplifiers.dir/cardmodel.cpp.obj	e723c7d85c87f209
-451	4095	7482336689248242	CMakeFiles/amplifiers.dir/configdialog.cpp.obj	ba736b377f84a8e2
-437	4206	7482336689108230	CMakeFiles/amplifiers.dir/carddelegate.cpp.obj	da057e952af8a9d6
-474	4843	7482336689476776	CMakeFiles/amplifiers.dir/utility.cpp.obj	67eac97df70bc8c3
-507	5123	7482336689811835	CMakeFiles/amplifiers.dir/advanceddialog.cpp.obj	3b4c08ccaed84b54
-420	5249	7482336688938243	CMakeFiles/amplifiers.dir/main.cpp.obj	3472a03bd21bcb0
-443	5347	7482336689168244	CMakeFiles/amplifiers.dir/loadcell.cpp.obj	6ffa33c63513e888
-521	5359	7482336689943933	CMakeFiles/amplifiers.dir/filterconfig.cpp.obj	99af6d5e4ca7f8ef
-457	5460	7482336689318240	CMakeFiles/amplifiers.dir/samplingpage.cpp.obj	6b6d6f852b1cc680
-447	5593	7482336689208227	CMakeFiles/amplifiers.dir/connectpopup.cpp.obj	89a7b9c4e40ffe8f
-424	8274	7482336688978239	CMakeFiles/amplifiers.dir/mainwindow.cpp.obj	80ba4785dcacbffe
-414	10196	7482336688877195	CMakeFiles/amplifiers.dir/amplifiers_autogen/mocs_compilation.cpp.obj	c1000d9e8b91ae26
-428	12685	7482336689018240	CMakeFiles/amplifiers.dir/qcustomplot.cpp.obj	a8ef45748bae5a15
-12685	12864	7482336811587827	amplifiers.exe	5b083f81a6b165ea
-51	527	7482338486376361	amplifiers_autogen/timestamp	ad08c72690a4fdf8
-51	527	7482338486376361	amplifiers_autogen/mocs_compilation.cpp	ad08c72690a4fdf8
-51	527	7482338486376361	C:/Users/RobinLee/OneDrive - ANYLOAD Weigh & Measure/Documents/amplifiers/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/amplifiers_autogen/timestamp	ad08c72690a4fdf8
-51	527	7482338486376361	C:/Users/RobinLee/OneDrive - ANYLOAD Weigh & Measure/Documents/amplifiers/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/amplifiers_autogen/mocs_compilation.cpp	ad08c72690a4fdf8
-647	763	7482338492342680	CMakeFiles/amplifiers.dir/globals.cpp.obj	5b705418809c15aa
-616	3270	7482338492033240	CMakeFiles/amplifiers.dir/globaltimer.cpp.obj	1ea7e2499f316301
-547	3571	7482338491339375	CMakeFiles/amplifiers.dir/cardmodel.cpp.obj	e723c7d85c87f209
-575	4050	7482338491644228	CMakeFiles/amplifiers.dir/configdialog.cpp.obj	ba736b377f84a8e2
-551	4257	7482338491379846	CMakeFiles/amplifiers.dir/carddelegate.cpp.obj	da057e952af8a9d6
-595	4648	7482338491824818	CMakeFiles/amplifiers.dir/utility.cpp.obj	67eac97df70bc8c3
-634	5026	7482338492212792	CMakeFiles/amplifiers.dir/advanceddialog.cpp.obj	3b4c08ccaed84b54
-662	5147	7482338492496897	CMakeFiles/amplifiers.dir/filterconfig.cpp.obj	99af6d5e4ca7f8ef
-533	5207	7482338491202621	CMakeFiles/amplifiers.dir/main.cpp.obj	3472a03bd21bcb0
-556	5338	7482338491435430	CMakeFiles/amplifiers.dir/loadcell.cpp.obj	6ffa33c63513e888
-571	5433	7482338491587891	CMakeFiles/amplifiers.dir/connectpopup.cpp.obj	89a7b9c4e40ffe8f
-588	5435	7482338491751951	CMakeFiles/amplifiers.dir/samplingpage.cpp.obj	6b6d6f852b1cc680
-538	7887	7482338491256021	CMakeFiles/amplifiers.dir/mainwindow.cpp.obj	80ba4785dcacbffe
-528	10099	7482338491151668	CMakeFiles/amplifiers.dir/amplifiers_autogen/mocs_compilation.cpp.obj	c1000d9e8b91ae26
-543	12783	7482338491298624	CMakeFiles/amplifiers.dir/qcustomplot.cpp.obj	a8ef45748bae5a15
-12783	12960	7482338613705305	amplifiers.exe	5b083f81a6b165ea
+3289	6664	7484900448558436	CMakeFiles/amplifiers.dir/loadcellmanager.cpp.obj	50c9b8cb0bb06637
+1085	4481	7520652624836710	CMakeFiles/amplifiers.dir/loadcell.cpp.obj	6ffa33c63513e888
+1110	1187	7520652625096722	CMakeFiles/amplifiers.dir/globals.cpp.obj	5b705418809c15aa
+273	1916	7460497269472615	CMakeFiles/amplifiers.dir/7f428323a2f6bc5f96291c4e38dc1273/Samples/Console/NativeC++/03_ManualRead/03_ManualRead.cpp.obj	1ac5ac20b92b087c
+1064	6433	7520652624635805	CMakeFiles/amplifiers.dir/mainwindow.cpp.obj	80ba4785dcacbffe
+109	1056	7520652615081189	C:/Users/RobinLee/OneDrive - ANYLOAD Weigh & Measure/Documents/amplifiers/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/amplifiers_autogen/timestamp	ad08c72690a4fdf8
+1091	3633	7520652624896676	CMakeFiles/amplifiers.dir/configdialog.cpp.obj	ba736b377f84a8e2
+1071	3449	7520652624701301	CMakeFiles/amplifiers.dir/cardmodel.cpp.obj	e723c7d85c87f209
+35	972	7520657916846000	amplifiers_autogen/timestamp	ad08c72690a4fdf8
+35	972	7520657916846000	amplifiers_autogen/mocs_compilation.cpp	ad08c72690a4fdf8
+35	972	7520657916846000	C:/Users/RobinLee/OneDrive - ANYLOAD Weigh & Measure/Documents/amplifiers/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/amplifiers_autogen/timestamp	ad08c72690a4fdf8
+35	972	7520657916846000	C:/Users/RobinLee/OneDrive - ANYLOAD Weigh & Measure/Documents/amplifiers/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/amplifiers_autogen/mocs_compilation.cpp	ad08c72690a4fdf8
+1025	1065	7520657926740756	CMakeFiles/amplifiers.dir/globals.cpp.obj	5b705418809c15aa
+1016	2501	7520657926649752	CMakeFiles/amplifiers.dir/globaltimer.cpp.obj	1ea7e2499f316301
+990	2921	7520657926389748	CMakeFiles/amplifiers.dir/cardmodel.cpp.obj	e723c7d85c87f209
+996	3311	7520657926449768	CMakeFiles/amplifiers.dir/carddelegate.cpp.obj	da057e952af8a9d6
+1007	3441	7520657926559763	CMakeFiles/amplifiers.dir/configdialog.cpp.obj	ba736b377f84a8e2
+1013	3817	7520657926619754	CMakeFiles/amplifiers.dir/utility.cpp.obj	67eac97df70bc8c3
+1028	3859	7520657926770776	CMakeFiles/amplifiers.dir/filterconfig.cpp.obj	99af6d5e4ca7f8ef
+1019	3887	7520657926679755	CMakeFiles/amplifiers.dir/advanceddialog.cpp.obj	3b4c08ccaed84b54
+977	4056	7520657926259834	CMakeFiles/amplifiers.dir/main.cpp.obj	3472a03bd21bcb0
+1000	4243	7520657926489758	CMakeFiles/amplifiers.dir/loadcell.cpp.obj	6ffa33c63513e888
+1010	4282	7520657926589759	CMakeFiles/amplifiers.dir/samplingpage.cpp.obj	6b6d6f852b1cc680
+1004	4400	7520657926529757	CMakeFiles/amplifiers.dir/connectpopup.cpp.obj	89a7b9c4e40ffe8f
+980	6492	7520657926289821	CMakeFiles/amplifiers.dir/mainwindow.cpp.obj	80ba4785dcacbffe
+973	8689	7520657926219751	CMakeFiles/amplifiers.dir/amplifiers_autogen/mocs_compilation.cpp.obj	c1000d9e8b91ae26
+986	15123	7520657926349756	CMakeFiles/amplifiers.dir/qcustomplot.cpp.obj	a8ef45748bae5a15
+15123	15272	7520658067726634	amplifiers.exe	5b083f81a6b165ea
